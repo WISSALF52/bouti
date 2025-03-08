@@ -1,17 +1,5 @@
 pipeline {
-    agent any
-
-    environment {
-        MAVEN_HOME = '/opt/maven'  // Change this path to where Maven is installed on your Jenkins instance
-        JAVA_HOME = '/opt/java/jdk-11' // Change this path to where JDK is installed
-    }
-
-    tools {
-        // Configure the Maven and JDK installations in Jenkins Global Tool Configuration
-        maven 'Maven 3'
-        jdk 'OpenJDK 11'
-    }
-
+  
     stages {
         stage('Checkout') {
             steps {
