@@ -19,15 +19,13 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-            steps {
-                environment {
+            environment {
                 SONAR_TOKEN = credentials('squ_230e7ecb286db8b9e01f1b256bf40fc2c1ff45e3')
-                // Effectue l'analyse SonarQube
+            }
+            steps {
                 script {
-                    def mvn = tool 'maven'
-                    withSonarQubeEnv() {
-                     bat "\"C:\\Program Files\\apache-maven-3.9.9\\bin\\mvn\" clean verify sonar:sonar -Dsonar.projectKey=anf -Dsonar.projectName=anf"
-
+                    withSonarQubeEnv('sonarqube') {
+                        bat "\"C:\\Program Files\\apache-maven-3.9.9\\bin\\mvn\" clean verify sonar:sonar -Dsonar.projectKey=anf -Dsonar.projectName=anf -Dsonar.login=$SONAR_TOKEN"
                     }
                 }
             }
