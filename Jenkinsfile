@@ -11,20 +11,19 @@ pipeline {
 
         stage('Compile') {
             steps {
+                // Compile le projet avec Maven
                 script {
-                    // Utilisation de Maven pour compiler le projet
-                    def mvn = tool name: 'Default Maven', type: 'Maven'
-                    bat "\"${mvn}\\bin\\mvn\" clean compile"
+                    sh 'mvn clean compile'
                 }
             }
         }
 
-        stage('Test') {
+
+       stage('Test') {
             steps {
+                // Lance les tests unitaires avec Maven
                 script {
-                    // Lancer les tests unitaires avec Maven
-                    def mvn = tool name: 'Default Maven', type: 'Maven'
-                    bat "\"${mvn}\\bin\\mvn\" test"
+                    sh 'mvn test'
                 }
             }
         }
@@ -41,26 +40,24 @@ pipeline {
             }
         }
 
-        stage('Package') {
+       stage('Package') {
             steps {
+                // Crée le fichier .jar avec Maven
                 script {
-                    // Emballer l'application en un fichier JAR (ou WAR, selon le projet)
-                    def mvn = tool name: 'Default Maven', type: 'Maven'
-                    bat "\"${mvn}\\bin\\mvn\" package"
+                    sh 'mvn package'
                 }
             }
         }
 
-        stage('Deploy') {
+
+         stage('Deploy') {
             steps {
-                script {
-                    // Déployer l'application (ajouter ici le script de déploiement selon ton besoin)
-                    echo 'Déploiement en cours...'
-                    // Exemple de déploiement (ajouter un script réel ici si nécessaire)
-                }
+                // Déploie l'application (exemple de message ici, à personnaliser selon ton processus de déploiement)
+                echo 'Déploiement de l\'application'
             }
         }
     }
+
 
     post {
         always {
