@@ -28,6 +28,18 @@ pipeline {
             }
         }
 
+         stage('SonarQube Analysis') {
+            environment {
+                SONAR_TOKEN = credentials('squ_483b4f9b47b98a6559a53a8188e8550bd18bbd67')
+            }
+            steps {
+                script {
+                    withSonarQubeEnv('SonarScanner') {
+                        bat "\"C:\\Program Files\\apache-maven-3.9.9\\bin\\mvn\" clean verify sonar:sonar -Dsonar.projectKey=anf -Dsonar.projectName=anf -Dsonar.login=${SONAR_TOKEN}"
+                    }
+                }
+            }
+        }
         stage('Package') {
             steps {
                 // Crée le fichier .jar avec Maven
