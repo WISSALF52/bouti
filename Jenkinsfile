@@ -20,6 +20,8 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
+                environment {
+                SONAR_TOKEN = credentials('squ_230e7ecb286db8b9e01f1b256bf40fc2c1ff45e3')
                 // Effectue l'analyse SonarQube
                 script {
                     def mvn = tool 'maven'
