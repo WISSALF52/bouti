@@ -32,7 +32,7 @@ pipeline {
             steps {
                 script {
                     // Lancer l'analyse SonarQube
-                    def mvn = tool name: 'Default Maven', type: 'Maven'
+                    def mvn = tool name: 'mv', type: 'Maven'
                     withSonarQubeEnv() {
                         bat "\"${mvn}\\bin\\mvn\" clean verify sonar:sonar -Dsonar.projectKey=tique -Dsonar.projectName='tique'"
                     }
