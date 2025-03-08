@@ -24,7 +24,7 @@ pipeline {
                 script {
                     def mvn = tool 'maven'
                     withSonarQubeEnv() {
-                        bat """${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=tique -Dsonar.projectName='tique'"""
+                      bat "\"${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=tique -Dsonar.projectName='tique'"""
                     }
                 }
             }
