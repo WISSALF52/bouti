@@ -34,7 +34,7 @@ pipeline {
             }
             steps {
                 script {
-                    withSonarQubeEnv('SonarScanner') {
+                    withSonarQubeEnv('sonarqube') {
                         bat "\"C:\\Program Files\\apache-maven-3.9.9\\bin\\mvn\" clean verify sonar:sonar -Dsonar.projectKey=anf -Dsonar.projectName=anf -Dsonar.login=${SONAR_TOKEN}"
                     }
                 }
