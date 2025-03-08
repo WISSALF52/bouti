@@ -13,7 +13,7 @@ pipeline {
             steps {
                 // Compile le projet avec Maven
                 script {
-                    sh 'mvn clean compile'
+                    bat 'mvn clean compile'
                 }
             }
         }
@@ -25,7 +25,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('sonarqube') {
-                        bat "\"C:\\Program Files\\apache-maven-3.9.9\\bin\\mvn\" clean verify sonar:sonar -Dsonar.projectKey=anf -Dsonar.projectName=anf -Dsonar.login=$SONAR_TOKEN"
+                        bat "\"C:\\Program Files\\apache-maven-3.9.9\\bin\\mvn\" clean verify sonar:sonar -Dsonar.projectKey=anf -Dsonar.projectName=anf -Dsonar.login=${SONAR_TOKEN}"
                     }
                 }
             }
@@ -35,7 +35,7 @@ pipeline {
             steps {
                 // Lance les tests unitaires avec Maven
                 script {
-                    sh 'mvn test'
+                    bat 'mvn test'
                 }
             }
         }
@@ -44,7 +44,7 @@ pipeline {
             steps {
                 // Crée le fichier .jar avec Maven
                 script {
-                    sh 'mvn package'
+                    bat 'mvn package'
                 }
             }
         }
