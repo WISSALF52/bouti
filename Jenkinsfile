@@ -4,8 +4,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Récupère le code depuis GitHub
-                git 'https://github.com/WISSALF52/bouti.git'
+                // Récupère le code depuis GitHub en utilisant les credentials
+                git credentialsId: '917c7869-e021-42cd-9a02-56aac9aa7bfb', url: 'https://github.com/WISSALF52/boutique.git'
             }
         }
 
