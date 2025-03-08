@@ -1,55 +1,55 @@
 pipeline {
-  
+    agent any  // Spécifie un agent générique
+
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the code from GitHub (assuming you are using GitHub)
-                git 'https://github.com/yourusername/your-repository.git'
+                // Récupère le code depuis GitHub
+                git 'https://github.com/WISSALF52/bouti.git'
             }
         }
 
         stage('Compile') {
             steps {
-                // Run Maven to compile the project
+                // Compile le projet avec Maven
                 script {
-                    sh "'${MAVEN_HOME}/bin/mvn' clean compile"
+                    sh 'mvn clean compile'
                 }
             }
         }
 
         stage('Test') {
             steps {
-                // Run unit tests using Maven
+                // Lance les tests unitaires avec Maven
                 script {
-                    sh "'${MAVEN_HOME}/bin/mvn' test"
+                    sh 'mvn test'
                 }
             }
         }
 
         stage('Package') {
             steps {
-                // Create the packaged .jar file
+                // Crée le fichier .jar avec Maven
                 script {
-                    sh "'${MAVEN_HOME}/bin/mvn' package"
+                    sh 'mvn package'
                 }
             }
         }
 
         stage('Deploy') {
             steps {
-                // Deploy the application (for example, copy to a server or push to a container registry)
-                // You can add your deployment steps here
-                echo 'Deploying the application'
+                // Déploie l'application (exemple de message ici, à personnaliser selon ton processus de déploiement)
+                echo 'Déploiement de l\'application'
             }
         }
     }
 
     post {
         success {
-            echo 'Build and deployment successful!'
+            echo 'Construction et déploiement réussis !'
         }
         failure {
-            echo 'There was a failure in the pipeline!'
+            echo 'Échec de la pipeline !'
         }
     }
 }
