@@ -1,55 +1,81 @@
 pipeline {
-    agent any  // Spécifie un agent générique
+    agent any
 
     stages {
-        stage('Checkout') {
+        stage('SCM') {
             steps {
-                // Récupère le code depuis GitHub
-                git 'https://github.com/WISSALF52/bouti.git'
+                // Cloner le dépôt Git
+                checkout scm
             }
         }
 
         stage('Compile') {
             steps {
-                // Compile le projet avec Maven
                 script {
-                    sh 'mvn clean compile'
+                    // Utilisation de Maven pour compiler le projet
+                    def mvn = tool name: 'Default Maven', type: 'Maven'
+                    bat "\"${mvn}\\bin\\mvn\" clean compile"
                 }
             }
         }
 
         stage('Test') {
             steps {
-                // Lance les tests unitaires avec Maven
                 script {
-                    sh 'mvn test'
+                    // Lancer les tests unitaires avec Maven
+                    def mvn = tool name: 'Default Maven', type: 'Maven'
+                    bat "\"${mvn}\\bin\\mvn\" test"
+                }
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    // Lancer l'analyse SonarQube
+                    def mvn = tool name: 'Default Maven', type: 'Maven'
+                    withSonarQubeEnv() {
+                        bat "\"${mvn}\\bin\\mvn\" clean verify sonar:sonar -Dsonar.projectKey=tique -Dsonar.projectName='tique'"
+                    }
                 }
             }
         }
 
         stage('Package') {
             steps {
-                // Crée le fichier .jar avec Maven
                 script {
-                    sh 'mvn package'
+                    // Emballer l'application en un fichier JAR (ou WAR, selon le projet)
+                    def mvn = tool name: 'Default Maven', type: 'Maven'
+                    bat "\"${mvn}\\bin\\mvn\" package"
                 }
             }
         }
 
         stage('Deploy') {
             steps {
-                // Déploie l'application (exemple de message ici, à personnaliser selon ton processus de déploiement)
-                echo 'Déploiement de l\'application'
+                script {
+                    // Déployer l'application (ajouter ici le script de déploiement selon ton besoin)
+                    echo 'Déploiement en cours...'
+                    // Exemple de déploiement (ajouter un script réel ici si nécessaire)
+                }
             }
         }
     }
 
     post {
-        success {
-            echo 'Construction et déploiement réussis !'
+        always {
+            // Actions à exécuter après la fin du pipeline (par exemple nettoyage)
+            echo 'Pipeline terminé'
         }
+
+        success {
+            // Action en cas de succès du pipeline
+            echo 'Le pipeline a réussi'
+        }
+
         failure {
-            echo 'Échec de la pipeline !'
+            // Action en cas d’échec du pipeline
+            echo 'Le pipeline a échoué'
         }
     }
 }
