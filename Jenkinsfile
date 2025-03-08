@@ -1,4 +1,5 @@
-pipeline {
+
+ pipeline {
     agent any  // Spécifie un agent générique
 
     stages {
@@ -18,18 +19,17 @@ pipeline {
             }
         }
 
- node {
-    stage('SCM') {
-        checkout scm
-    }
-    stage('SonarQube Analysis') {
-        def mvn = tool 'maven'
-        withSonarQubeEnv() {
-            bat """${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=tique -Dsonar.projectName="tique""""
+        stage('SonarQube Analysis') {
+            steps {
+                // Effectue l'analyse SonarQube
+                script {
+                    def mvn = tool 'maven'
+                    withSonarQubeEnv() {
+                        bat """${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=tique -Dsonar.projectName="tique""""
+                    }
+                }
+            }
         }
-    }
-}
-
 
         stage('Test') {
             steps {
