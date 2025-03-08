@@ -18,6 +18,18 @@ pipeline {
             }
         }
 
+        node {
+  stage('SCM') {
+    checkout scm
+  }
+  stage('SonarQube Analysis') {
+    def mvn = tool 'maven';
+    withSonarQubeEnv() {
+     bat "\"${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=tique -Dsonar.projectName='tique'"
+    }
+  }
+}
+
         stage('Test') {
             steps {
                 // Lance les tests unitaires avec Maven
