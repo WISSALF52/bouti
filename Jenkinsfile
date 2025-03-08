@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Récupère le code depuis GitHub
-                git 'https://github.com/WISSALF52/bouti.git'
+                git 'https://github.com/WISSALF52/boutique.git'
             }
         }
 
@@ -50,6 +50,6 @@ pipeline {
         }
         failure {
             echo 'Échec de la pipeline !'
-        }
-    }
+        }
+    }
 }
