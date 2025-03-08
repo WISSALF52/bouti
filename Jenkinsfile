@@ -28,17 +28,17 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
-            steps {
-                script {
-                    // Lancer l'analyse SonarQube
-                    def mvn = tool name: 'mv', type: 'Maven'
-                    withSonarQubeEnv() {
-                        bat "\"${mvn}\\bin\\mvn\" clean verify sonar:sonar -Dsonar.projectKey=tique -Dsonar.projectName='tique'"
-                    }
-                }
-            }
-        }
+      node {
+  stage('SCM') {
+    checkout scm
+  }
+  stage('SonarQube Analysis') {
+    def mvn = tool 'maven';
+    withSonarQubeEnv() {
+      bat "\" "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=tique -Dsonar.projectName='tique'"
+    }
+  }
+}
 
        stage('Package') {
             steps {
